@@ -17,7 +17,7 @@ async def read(id):
     return {
         'data': {
             'name': id,
-            'age': z - 20030000,
+            'age': z - 2004,
             'odliczanie': ' '.join((str(x-y)).split()[:2])
         }
     }
