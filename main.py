@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+from typing import Optional
+from pydantic import BaseModel
 import datetime, time
 app = FastAPI()
 
@@ -8,12 +10,15 @@ z = datetime.date.today().year
 odlic = str(x-y)
 
 @app.get("/")
-async def root():
-    return f'zostałoooo: {odlic}'
+async def start(req: bool=False, name: Optional[str] = ''):
+    if req:
+        return f'{name} zostałoooo: {odlic}'
+    else:
+        return None
 
 
 @app.get("/items/{id}")
-async def read(id):
+async def index(id: int):
     return {
         'data': {
             'name': id,
@@ -21,3 +26,15 @@ async def read(id):
             'odliczanie': ' '.join((str(x-y)).split()[:2])
         }
     }
+
+
+class blog(BaseModel):
+    title: str
+    body: str
+    published: Optional[bool]
+
+
+@app.post("/blog")
+def blog(request: blog):
+    ww = 'da' + 'ta'
+    return {ww: f'blog is created as {request.title}'}
